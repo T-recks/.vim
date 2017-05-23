@@ -11,8 +11,9 @@
 "	    for OpenVMS:  sys$login:.vimrc
 
 " backup file settings
-set backupdir=~/.vimtmp
-set directory=~/.vimtmp
+set backupdir=~/.vim/tmp
+set directory=~/.vim/tmp
+set undodir=~/.vim/un
 
 " tab settings
 set tabstop=4

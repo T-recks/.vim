@@ -10,15 +10,48 @@
 "  for MS-DOS and Win32:  $VIM\_vimrc
 "	    for OpenVMS:  sys$login:.vimrc
 
+"""
+" Vundle setup
+"""
+set nocompatible              " be iMproved, required
+filetype off                  " required
+
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+
+call vundle#begin()
+Plugin 'VundleVim/Vundle.vim'
+" Plugins
+Plugin 'scrooloose/nerdtree'
+Plugin 'Xuyuanp/nerdtree-git-plugin'
+Plugin 'ctrlpvim/ctrlp.vim'
+Plugin 'tpope/vim-fugitive'
+Plugin 'vim-syntastic/syntastic'
+Plugin 'junegunn/goyo.vim'
+call vundle#end()
+filetype plugin indent on
+
+"""
+" Plugin Settings
+"""
+map <Leader>k :NERDTreeToggle<CR>
+
+"""
 " backup file settings
+"""
 set backupdir=~/.vim/tmp
 set directory=~/.vim/tmp
 set undodir=~/.vim/un
 
-" tab settings
+"""
+" indentation settings
+"""
 set tabstop=4
+set shiftwidth=4
 
+"""
 " Line number settings
+"""
 highlight LineNr term=bold cterm=NONE ctermfg=DarkGrey ctermbg=NONE guifg=DarkGrey guibg=NONE
 highlight CursorLineNr term=bold ctermfg=Blue
 
@@ -62,10 +95,10 @@ else
   endif
 endif
 
-if &t_Co > 2 || has("gui_running")
-  " Switch on highlighting the last used search pattern.
-  set hlsearch
-endif
+"if &t_Co > 2 || has("gui_running")
+" " Switch on highlighting the last used search pattern.
+" set hlsearch
+"endif
 
 " Only do this part when compiled with support for autocommands.
 if has("autocmd")
@@ -75,7 +108,7 @@ if has("autocmd")
   au!
 
   " For all text files set 'textwidth' to 78 characters.
-  autocmd FileType text setlocal textwidth=78
+  " autocmd FileType text setlocal textwidth=78
 
   augroup END
 
@@ -92,3 +125,24 @@ endif " has("autocmd")
 if has('syntax') && has('eval')
   packadd matchit
 endif
+
+"""
+" timeout settings
+"""
+set timeout " Do time out on mappings and others
+set timeoutlen=2000 " Wait {num} ms before timing out a mapping
+
+" When you’re pressing Escape to leave insert mode in the terminal, it will by
+" default take a second or another keystroke to leave insert mode completely
+" and update the statusline. This fixes that. I got this from:
+" https://powerline.readthedocs.org/en/latest/tipstricks.html#vim
+if !has('gui_running')
+    set ttimeoutlen=10
+    augroup FastEscape
+        autocmd!
+        au InsertEnter * set timeoutlen=0
+        au InsertLeave * set timeoutlen=2000
+    augroup END
+endif
+
+
